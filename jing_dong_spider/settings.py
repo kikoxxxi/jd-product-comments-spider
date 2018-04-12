@@ -15,6 +15,15 @@ BOT_NAME = 'jing_dong_spider'
 SPIDER_MODULES = ['jing_dong_spider.spiders']
 NEWSPIDER_MODULE = 'jing_dong_spider.spiders'
 
+# Configure MySQL
+MYSQL_CONFIG = {
+    "host": "localhost",
+    "user": "root",
+    "password": "xxxxxxxx",
+    "db": "jing_dong_db",
+    "charset": "utf8",
+}
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 MY_USER_AGENT = [
@@ -93,8 +102,8 @@ COOKIES_ENABLED = False
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'scrapy.downloadermiddleware.useragent.UserAgentMiddleware': None,
-   'jing_dong_spider.middlewares.MyUserAgentMiddleware': 400,
+    'scrapy.downloadermiddleware.useragent.UserAgentMiddleware': None,
+    'jing_dong_spider.middlewares.MyUserAgentMiddleware': 400,
 }
 
 # Enable or disable extensions
@@ -105,9 +114,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'jing_dong_spider.pipelines.JingDongSpiderPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'jing_dong_spider.pipelines.MySQLPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

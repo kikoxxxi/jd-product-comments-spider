@@ -14,4 +14,3 @@ class JingDongSpiderItem(scrapy.Item):
     product_name = scrapy.Field()
     product_id = scrapy.Field()
     product_comment = scrapy.Field()
-    product_after_comment = scrapy.Field()

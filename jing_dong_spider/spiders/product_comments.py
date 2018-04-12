@@ -61,14 +61,13 @@ class ProductCommentsSpider(scrapy.Spider):
                 product_after_comment = comment["afterUserComment"]["hAfterUserComment"]["content"]
             except KeyError:
                 product_after_comment = ""
-            if product_comment or product_after_comment:
-                item["product_name"] = self.product_name
-                item["product_id"] = self.product_id
-                item["product_comment"] = self.delete_redundant_symbol(
-                    product_comment) if product_comment else ""
-                item["product_after_comment"] = self.delete_redundant_symbol(
-                    product_after_comment) if product_after_comment else ""
-                yield item
+            product_comment_list = [product_comment, product_after_comment]
+            for pc in product_comment_list:
+                if pc:
+                    item["product_name"] = self.product_name
+                    item["product_id"] = self.product_id
+                    item["product_comment"] = self.delete_redundant_symbol(pc)
+                    yield item
 
     def delete_redundant_symbol(self, data):
         # 去掉类似&hellip;\n多余的字符
