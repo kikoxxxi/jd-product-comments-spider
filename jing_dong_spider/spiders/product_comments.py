@@ -15,16 +15,16 @@ from ..items import JingDongSpiderItem
 class ProductCommentsSpider(scrapy.Spider):
     name = "product_comments_spider"
     sortType = 6  # 按时间排序 sortType=6
-    score = [1, 2, 3]  # 好评 score=3,中评 score=2,差评 score=1
+    score = [1, 2, 3]  # 差评 score=1,中评 score=2,好评 score=3
     product_name = input("Input the product's name: ").strip()  # iphone6
     product_id = input("Input the product's ID: ").strip()  # 4586850
-    # 好中差评的数量，空格隔开
-    # 450000 6400 9100
-    counts_str = list(input("Input good, general, poor count: ").split())
+    # 中差评的数量，空格隔开
+    # 9100 6400
+    counts_str = list(input("Input poor, general count: ").split())
     counts = map(lambda x: int(x), counts_str)
-    # 根据好中差评的数量来确定要爬取的页数，最多爬取450页
-    values = list(map(lambda c: math.ceil(c / 10)
-                      if c <= 4500 else 450, counts))
+    # 根据好评默认只能爬100页，中差评的数量来确定要爬取的页数，最多爬取总页数的百分之六十八
+    values = list(map(lambda c: math.ceil(c * 0.068), counts))
+    values.append(100)
     page_nums = dict(zip(score, values))
     start_url = "https://item.jd.com/{}.html".format(product_id)
 
