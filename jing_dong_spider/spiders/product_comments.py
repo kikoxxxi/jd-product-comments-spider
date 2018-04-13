@@ -23,13 +23,14 @@ class ProductCommentsSpider(scrapy.Spider):
     counts_str = list(input("Input poor, general count: ").split())
     counts = map(lambda x: int(x), counts_str)
     # 根据好评默认只能爬100页，中差评的数量来确定要爬取的页数，最多爬取总页数的百分之六十八
-    values = list(map(lambda c: math.ceil(c * 0.068), counts))
+    values = list(map(lambda c: math.ceil(c * 0.068) if c >
+                      1000 else math.ceil(c / 10), counts))
     values.append(100)
     page_nums = dict(zip(score, values))
     start_url = "https://item.jd.com/{}.html".format(product_id)
 
     def start_requests(self):
-        return [Request(url=self.start_url, callback=self.parse)]
+        return [Request(url=self.start_url, callback=self.parse, dont_filter=True)]
 
     def parse(self, response):
         html_content = response.text
@@ -44,7 +45,7 @@ class ProductCommentsSpider(scrapy.Spider):
                     commentVersion, self.product_id, score_num, self.sortType, page_num)
                 sec = random.randint(2, 12)
                 time.sleep(sec)  # 防止被ban
-                yield Request(url=comment_url, callback=self.parse_detail, meta={"delete_str": delete_str})
+                yield Request(url=comment_url, callback=self.parse_detail, meta={"delete_str": delete_str}, dont_filter=True)
 
     def parse_detail(self, response):
         html_content = response.text

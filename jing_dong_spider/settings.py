@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = 'jing_dong_spider.spiders'
 MYSQL_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "xxxxxxxx",
+    "password": "XXXXXXXX",
     "db": "jing_dong_db",
     "charset": "utf8",
 }
